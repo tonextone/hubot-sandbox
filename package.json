@@ -5,6 +5,7 @@
   "author": "tonextone <master@tonextone.com>",
   "description": "kanshin bot",
   "dependencies": {
+    "cron": "^1.1.0",
     "hubot": "^2.17.0",
     "hubot-diagnostics": "0.0.1",
     "hubot-google-images": "^0.2.6",
@@ -18,10 +19,11 @@
     "hubot-scripts": "^2.16.2",
     "hubot-shipit": "^0.2.0",
     "hubot-sushiyuki": "0.0.11",
-    "hubot-typetalk": "^0.2.0"
+    "hubot-typetalk": "^0.2.0",
+    "time": "^0.11.4"
   },
   "engines": {
-      "node": "5.4.0",
-      "npm": "3.3.12"
+    "node": "5.4.0",
+    "npm": "3.3.12"
   }
 }
