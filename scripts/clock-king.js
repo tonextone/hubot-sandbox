@@ -7,7 +7,7 @@ module.exports = function(robot){
         timeZone: 'Asia/Tokyo',
         start: true,
         onTick: function() {
-            robot.send({room: theRoom}, '¤ª¤Ï¤è¤¦¤´¤¶¤¤¤Ş¤¹¡£');
+            robot.send({room: theRoom}, 'ãŠã¯ã‚ˆã†ã”ã–ã„ã¾ã™ã€‚');
         }
     });
     var night = new Job({
@@ -15,7 +15,7 @@ module.exports = function(robot){
         timeZone: 'Asia/Tokyo',
         start: true,
         onTick: function() {
-            robot.send({room: theRoom}, '¤ªÈè¤ìÍÍ¤Ç¤·¤¿¡ª');
+            robot.send({room: theRoom}, 'ãŠç–²ã‚Œæ§˜ã§ã—ãŸï¼');
         }
     });
     var keepalive = new Job({
