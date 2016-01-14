@@ -3,8 +3,9 @@ require('dotenv').config({silent: true});
 var amazon = require('amazon-product-api');
 
 module.exports = function(robot){
-    robot.respond(/(az|amzn|amaz|amazon) (.*)/i, function(res){
+    robot.respond(/(?:az|amzn|amaz|amazon) (.*)/i, function(res){
         var keyword = res.match[1];
+        res.reply('Amazon で "' + keyword + '" の本を探します...' );
         var client = amazon.createClient({
             awsId: process.env.AMAZON_AWS_ID,
             awsSecret: process.env.AMAZON_AWS_SECRET,
