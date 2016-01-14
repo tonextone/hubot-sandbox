@@ -1,4 +1,4 @@
-require('dotenv').load();
+require('dotenv').config({silent: true});
 
 var Job = require('cron').CronJob;
 var theRoom = (typeof(process.env)=='undefined') ? 20829 : process.env.HUBOT_TYPETALK_ROOMS ;

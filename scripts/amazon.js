@@ -1,3 +1,5 @@
+require('dotenv').config({silent: true});
+
 var amazon = require('amazon-product-api');
 
 module.exports = function(robot){

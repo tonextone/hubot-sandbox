@@ -1,4 +1,4 @@
-require('dotenv').load();
+require('dotenv').config({silent: true});
 
 // Next: https://hubot.github.com/docs/scripting/#making-http-calls
 
