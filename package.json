@@ -4,6 +4,10 @@
   "private": true,
   "author": "tonextone <master@tonextone.com>",
   "description": "kanshin bot",
+  "engines": {
+    "node": "5.4.0",
+    "npm": "3.3.12"
+  },
   "dependencies": {
     "cron": "^1.1.0",
     "hubot": "^2.17.0",
@@ -22,8 +26,10 @@
     "hubot-typetalk": "^0.2.0",
     "time": "^0.11.4"
   },
-  "engines": {
-    "node": "5.4.0",
-    "npm": "3.3.12"
+  "devDependencies": {
+    "mocha": "^2.3.4"
+  },
+  "scripts": {
+    "test": "mocha"
   }
 }
