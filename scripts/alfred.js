@@ -1,3 +1,4 @@
+require('dotenv').load();
 
 // Next: https://hubot.github.com/docs/scripting/#making-http-calls
 
