@@ -23,7 +23,7 @@ module.exports = function(robot){
         }, function(err, items){
             if (err) {
                 console.log(err);
-                res.send('見つかりません');
+                res.reply('見つかりません');
                 return;
             }
             var message = '';
