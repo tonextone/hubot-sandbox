@@ -28,12 +28,10 @@ module.exports = function(robot){
         var payload = {
             mode: 'dialog',
             utt: msg,
+            nickname: res.message.user.name,
             context: status.context,
             t: res.random([20, 30])
         };
-        if (typeof(res.user) !== 'undefined') payload.nickname = res.user.name;
-        
-        res.reply(JSON.stringify(payload));
         
         robot
             .http('https://api.apigw.smt.docomo.ne.jp/dialogue/v1/dialogue')

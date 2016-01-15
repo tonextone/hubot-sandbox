@@ -21,6 +21,8 @@ module.exports = function(robot){
         msg = msg.replace((new RegExp('[@]?'+robot.name+'[:]? *', 'igm')), '');
         if (robot.alias) msg = msg.replace((new RegExp('^'+robot.alias)), '');
         
+        res.reply('「'+msg+'」について、ちょっと調べてみます...' );
+        
         robot
             .http('https://api.apigw.smt.docomo.ne.jp/knowledgeQA/v1/ask')
             .query({

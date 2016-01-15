@@ -35,37 +35,36 @@ module.exports = function(robot){
             responseGroup: 'ItemAttributes',
             domain: 'ecs.amazonaws.jp'
         }, function(err, items){
-            if (err) {
-                console.log(err);
-                res.reply('見つかりません。');
-                return;
+            var reply = '...';
+            if (err) reply += '見つかりません...';
+            else {
+                reply += '見つかりました！';
+                var num = items.length;
+                for (var i = 0; i < num; i++) {
+                    if (i >= 1) {
+                        reply += '\n ほか '+(num-1)+' 件';
+                        if (num >= 10) reply += '以上';
+                        break;
+                    }
+                    var item = items[i];
+                    var title = item.ItemAttributes[0].Title;
+                    var url = item.DetailPageURL[0];
+                    var code = '';
+                    if (item.ASIN) {
+                        code += 'ASIN: ' + item.ASIN[0];
+                        url = 'http://amazon.co.jp/dp/'+item.ASIN[0];
+                    }
+                    if (item.ItemAttributes[0].EAN) {
+                        code += ', EAN: ' + item.ItemAttributes[0].EAN[0];
+                    }
+                    reply += (
+                        '\n'+title
+                            +'\n'+code
+                            +'\n'+url
+                    );
+                }
             }
-            var message = '見つかりました！';
-            var num = items.length;
-            for (var i = 0; i < num; i++) {
-                if (i >= 1) {
-                    message += '\n ほか '+(num-1)+' 件';
-                    if (num >= 10) message += '以上';
-                    break;
-                }
-                var item = items[i];
-                var title = item.ItemAttributes[0].Title;
-                var url = item.DetailPageURL[0];
-                var code = '';
-                if (item.ASIN) {
-                    code += 'ASIN: ' + item.ASIN[0];
-                    url = 'http://amazon.co.jp/dp/'+item.ASIN[0];
-                }
-                if (item.ItemAttributes[0].EAN) {
-                    code += ', EAN: ' + item.ItemAttributes[0].EAN[0];
-                }
-                message += (
-                    '\n'+title
-                        +'\n'+code
-                        +'\n'+url
-                );
-            }
-            res.reply(message);
+            res.reply(reply);
         });
     });
 };
