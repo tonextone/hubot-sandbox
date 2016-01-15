@@ -11,7 +11,7 @@
 
 require('dotenv').config({silent: true});
 
-var theRoom = process.env.HUBOT_TYPETALK_ROOMS;
+var rooms = process.env.HUBOT_TYPETALK_ROOMS.split(/, */);
 
 var _ = require('lodash');
 var moment = require('moment'); moment.locale('ja');
@@ -32,16 +32,20 @@ module.exports = function(robot){
         process.on('SIGTERM', onSigterm);
     }
     robot.on('robot.wakeup', function(context){
-        robot.send(
-            {room: theRoom},
-            'ガバリ (起動しました)'
-        );
+        _.each(rooms, function(room){
+            robot.send(
+                {room: room},
+                'ガバリ (起動しました)'
+            );
+        });
     });
     robot.on('robot.sleep', function(context){
-        robot.send(
-            {room: theRoom},
-            'スヤリ (停止しました)'
-        );
+        _.each(rooms, function(room){
+            robot.send(
+                {room: room},
+                'スヤリ (停止しました)'
+            );
+        });
     });
     robot.hear(/zzz/i, function(res){
         res.reply('オキロ');

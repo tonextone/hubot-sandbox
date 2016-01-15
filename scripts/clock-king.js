@@ -12,7 +12,7 @@
 
 require('dotenv').config({silent: true});
 
-var theRoom = process.env.HUBOT_TYPETALK_ROOMS;
+var rooms = process.env.HUBOT_TYPETALK_ROOMS.split(/, */);
 
 var _ = require('lodash');
 var moment = require('moment'); moment.locale('ja');
@@ -36,7 +36,7 @@ module.exports = function(robot){
                 +'\n風速: '+ w.wind + ' m/s'
         );
     };
-    var fetchWeather = function() {
+    var fetchWeather = function(room) {
         robot
             .http('http://api.openweathermap.org/data/2.5/weather')
             .header('Accept', 'application/json')
@@ -82,26 +82,30 @@ module.exports = function(robot){
                         iconUrl: 'http://openweathermap.org/img/w/' + data.weather[0].icon + '.png'
                     }
                 );
-                robot.emit('robot.fetched.weather', weather);
+                robot.emit('robot.fetched.weather', {weather: weather, room: room});
             });
     };
-    robot.on('robot.fetched.weather', function(weather){
-        robot.send(
-            {room: theRoom},
-            timeStr(true)
-            +'\n'+weatherStr(weather, true)
-        );
+    robot.on('robot.fetched.weather', function(d){
+        var _rooms = d.room ? [d.room] : rooms;
+        _.each(_rooms, function(room){
+            robot.send(
+                {room: room},
+                timeStr(true)+'\n'+weatherStr(d.weather)
+            );
+        });
     });
     
     new Job({
         cronTime: '0 0 10 * * 1-5',
         timeZone: 'Asia/Tokyo',
         start: true,
-        onTick: function() {
-            robot.send(
-                {room: theRoom},
-                'おはようございます。'
-            );
+        onTick: function(){
+            _.each(rooms, function(room){
+                robot.send(
+                    {room: room},
+                    'おはようございます。'
+                );
+            });
             fetchWeather();
         }
     });
@@ -109,11 +113,13 @@ module.exports = function(robot){
         cronTime: '0 30 19 * * 1-5',
         timeZone: 'Asia/Tokyo',
         start: true,
-        onTick: function() {
-            robot.send(
-                {room: theRoom},
-                'お疲れ様でした！'
-            );
+        onTick: function(){
+            _.each(rooms, function(room){
+                robot.send(
+                    {room: room},
+                    'お疲れ様でした！'
+                );
+            });
             fetchWeather();
         }
     });
@@ -122,12 +128,16 @@ module.exports = function(robot){
         timeZone: 'Asia/Tokyo',
         start: true,
         onTick: function() {
-            robot.send(
-                {room: theRoom},
-                timeStr() + 'ごろです。'
-            );
+            _.each(rooms, function(room){
+                robot.send(
+                    {room: room},
+                    timeStr() + 'ごろです。'
+                );
+            });
         }
     });
     
-    robot.hear(/^now$/i, function(res){ fetchWeather(); });
+    robot.hear(/^now$/i, function(res){
+        fetchWeather(res.envelope.room);
+    });
 };
