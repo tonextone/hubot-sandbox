@@ -2,7 +2,7 @@
 //   hubot scripts for Amazon whatever .
 //
 // Commands:
-//   az:<text> - Amazon を <text> で検索します。
+//   az <text> - Amazon を <text> で検索します。
 //
 // Author:
 //   Taiji Baba <master@tonextone.com>
@@ -16,8 +16,9 @@ var moment = require('moment'); moment.locale('ja');
 var amazon = require('amazon-product-api');
 
 module.exports = function(robot){
-    robot.hear(/^(?:az|amzn|amaz|amazon):(.*)/i, function(res){
+    robot.hear(/^(?:az|amzn|amaz|amazon) (.*)/i, function(res){
         var keyword = res.match[1];
+        console.log(keyword);
         res.reply('Amazon を "' + keyword + '" で検索します...' );
         var client = amazon.createClient({
             awsId: process.env.AMAZON_AWS_ID,
