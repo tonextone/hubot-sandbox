@@ -138,7 +138,6 @@ module.exports = function(robot){
     });
     
     robot.hear(/^now$/i, function(res){
-        res.send(JSON.stringify(res.envelope));
         fetchWeather(res.envelope.room);
     });
 };

@@ -22,14 +22,13 @@ var amazon = require('amazon-product-api');
 module.exports = function(robot){
     robot.hear(/^(?:az|amzn|amaz|amazon) (.*)/i, function(res){
         var keyword = res.match[1];
-        console.log(keyword);
         res.reply('Amazon を "' + keyword + '" で検索します...' );
-        var client = amazon.createClient({
+        
+        (amazon.createClient({
             awsId: process.env.AMAZON_AWS_ID,
             awsSecret: process.env.AMAZON_AWS_SECRET,
             awsTag: process.env.AMAZON_AWS_TAG
-        });
-        client.itemSearch({
+        })).itemSearch({
             keywords: keyword,
             searchIndex: 'All',
             responseGroup: 'ItemAttributes',
