@@ -14,21 +14,14 @@ module.exports = function(robot){
             return moment().format('HH [時]');
         }
     };
-    var weatherStr = function(w, long) {
-        if (long) {
-            return (
-                w.title+' ('+w.description+')'
-                    +'\n'+w.iconUrl
-                    +'\n気温: '+ w.temp + ' ℃'
-                    +'\n湿度: '+ w.humidity + ' %'
-                    +'\n風速: '+ w.wind + ' m/s'
-            );
-        } else {
-            return (
-                w.title+' ('+w.description+')'
-                    +'\n'+iconUrl
-            );
-        }
+    var weatherStr = function(w) {
+        return (
+            w.title+' ('+w.description+')'
+                +'\n'+w.iconUrl
+                +'\n気温: '+ w.temp + ' ℃'
+                +'\n湿度: '+ w.humidity + ' %'
+                +'\n風速: '+ w.wind + ' m/s'
+        );
     };
     var fetchWeather = function() {
         robot
@@ -109,7 +102,8 @@ module.exports = function(robot){
     robot.on('robot.fetched.weather', function(weather){
         robot.send(
             {room: theRoom},
-            weatherStr(weather, true)
+            timeStr(true)
+            +'\n'+weatherStr(weather, true)
         );
     });
     
@@ -121,8 +115,8 @@ module.exports = function(robot){
             robot.send(
                 {room: theRoom},
                 'おはようございます。'
-                    +'\n'+timeStr(true)
             );
+            fetchWeather();
         }
     });
     new Job({
@@ -133,8 +127,8 @@ module.exports = function(robot){
             robot.send(
                 {room: theRoom},
                 'お疲れ様でした！'
-                    +'\n'+timeStr(true)
             );
+            fetchWeather();
         }
     });
     new Job({
@@ -149,9 +143,5 @@ module.exports = function(robot){
         }
     });
     
-    robot.respond(/now/i, function(res){
-        res.reply(timeStr(true));
-        fetchWeather();
-    });
+    robot.hear(/^now$/i, function(res){ fetchWeather(); });
 };
-
