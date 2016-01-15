@@ -1,6 +1,11 @@
 // Description
 //   hubot scripts for Amazon whatever .
 //
+// Configuration:
+//   AMAZON_AWS_ID
+//   AMAZON_AWS_SECRET
+//   AMAZON_AWS_TAG
+//
 // Commands:
 //   az <text> - Amazon を <text> で検索します。
 //
@@ -9,10 +14,9 @@
 
 require('dotenv').config({silent: true});
 
-var theRoom = process.env.HUBOT_TYPETALK_ROOMS;
-
 var _ = require('lodash');
 var moment = require('moment'); moment.locale('ja');
+
 var amazon = require('amazon-product-api');
 
 module.exports = function(robot){

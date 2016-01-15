@@ -40,7 +40,7 @@ module.exports = function(robot){
             .http('http://api.openweathermap.org/data/2.5/weather')
             .header('Accept', 'application/json')
             .query({q: 'Tokyo', appid: '20ad84345f5c6d855d36d3af1ab52a7c'})
-            .get()(function(err, res, body){
+            .get()(function(err, r, body){
                 var data = JSON.parse(body);
                 var weather;
                 if (err) weather = null;
