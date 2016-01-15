@@ -27,6 +27,7 @@ module.exports = function(robot){
         }
     };
     var weatherStr = function(w) {
+        if (!w) return '気象データを取得できませんでした...';
         return (
             w.title+' ('+w.description+')'
                 +'\n'+w.iconUrl
