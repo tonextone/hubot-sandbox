@@ -46,14 +46,15 @@ module.exports = function(robot){
                 }
                 var item = items[i];
                 var title = item.ItemAttributes[0].Title;
-                var code = '';
-                if (item.ItemAttributes[0].EAN) {
-                    code += 'EAN: ' + item.ItemAttributes[0].EAN[0];
-                }
-                if (item.ASIN) {
-                    code += ', ASIN: ' + item.ASIN[0];
-                }
                 var url = item.DetailPageURL[0];
+                var code = '';
+                if (item.ASIN) {
+                    code += 'ASIN: ' + item.ASIN[0];
+                    url = 'http://amazon.co.jp/dp/'+item.ASIN[0];
+                }
+                if (item.ItemAttributes[0].EAN) {
+                    code += ', EAN: ' + item.ItemAttributes[0].EAN[0];
+                }
                 message += (title + '\n' + code + '\n' + url + '\n');
             }
             res.reply(message);
