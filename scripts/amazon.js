@@ -33,15 +33,15 @@ module.exports = function(robot){
         }, function(err, items){
             if (err) {
                 console.log(err);
-                res.reply('見つかりません');
+                res.reply('見つかりません。');
                 return;
             }
-            var message = '';
+            var message = '見つかりました！';
             var num = items.length;
             for (var i = 0; i < num; i++) {
                 if (i >= 1) {
-                    message += 'ほか'+(num-1)+'件';
-                    if (num >=10) message += '以上';
+                    message += '\n ほか '+(num-1)+' 件';
+                    if (num >= 10) message += '以上';
                     break;
                 }
                 var item = items[i];
@@ -55,7 +55,11 @@ module.exports = function(robot){
                 if (item.ItemAttributes[0].EAN) {
                     code += ', EAN: ' + item.ItemAttributes[0].EAN[0];
                 }
-                message += (title + '\n' + code + '\n' + url + '\n');
+                message += (
+                    '\n'+title
+                        +'\n'+code
+                        +'\n'+url
+                );
             }
             res.reply(message);
         });
