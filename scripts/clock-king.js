@@ -127,7 +127,7 @@ module.exports = function(robot){
         cronTime: '0 0 */2 * * 1-5',
         timeZone: 'Asia/Tokyo',
         start: true,
-        onTick: function() {
+        onTick: function(){
             _.each(rooms, function(room){
                 robot.send(
                     {room: room},
@@ -138,6 +138,7 @@ module.exports = function(robot){
     });
     
     robot.hear(/^now$/i, function(res){
+        res.send(JSON.stringify(res.envelope));
         fetchWeather(res.envelope.room);
     });
 };
