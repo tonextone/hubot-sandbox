@@ -1,11 +1,15 @@
 require('dotenv').config({silent: true});
 
+var theRoom = process.env.HUBOT_TYPETALK_ROOMS;
+
+var _ = require('lodash');
+var moment = require('moment'); moment.locale('ja');
 var amazon = require('amazon-product-api');
 
 module.exports = function(robot){
     robot.respond(/(?:az|amzn|amaz|amazon) (.*)/i, function(res){
         var keyword = res.match[1];
-        res.reply('Amazon で "' + keyword + '" の本を探します...' );
+        res.reply('Amazon を "' + keyword + '" で検索します...' );
         var client = amazon.createClient({
             awsId: process.env.AMAZON_AWS_ID,
             awsSecret: process.env.AMAZON_AWS_SECRET,
@@ -13,7 +17,7 @@ module.exports = function(robot){
         });
         client.itemSearch({
             keywords: keyword,
-            searchIndex: 'Books',
+            searchIndex: 'All',
             responseGroup: 'ItemAttributes',
             domain: 'ecs.amazonaws.jp'
         }, function(err, items){

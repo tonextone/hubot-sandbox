@@ -1,6 +1,9 @@
 require('dotenv').config({silent: true});
 
-// Next: https://hubot.github.com/docs/scripting/#making-http-calls
+var theRoom = process.env.HUBOT_TYPETALK_ROOMS;
+
+var _ = require('lodash');
+var moment = require('moment'); moment.locale('ja');
 
 module.exports = function(robot){
     robot.hear(/zzz/i, function(res){
