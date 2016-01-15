@@ -1,3 +1,15 @@
+// Description
+//   日時に関わる Hubot scripts.
+//
+// Commands:
+//   now - いまの日時と気象を教えてくれます。
+//   (定期的に) - 時報
+//   (始業時刻に) - あいさつします。
+//   (終業時刻に) - あいさつします。
+//
+// Author:
+//   Taiji Baba <master@tonextone.com>
+
 require('dotenv').config({silent: true});
 
 var theRoom = process.env.HUBOT_TYPETALK_ROOMS;
@@ -72,33 +84,6 @@ module.exports = function(robot){
                 robot.emit('robot.fetched.weather', weather);
             });
     };
-    var cid = setInterval(function(){
-        if (typeof(robot.send) !== 'function') return;
-        robot.emit('robot.wakeup', {});
-        clearInterval(cid);
-    }, 1000);
-    var onSigterm = function(){
-        robot.emit('robot.sleep', {});
-        setTimeout(process.exit, 1000);
-    };
-    if (typeof(process._events.SIGTERM) !== 'undefined') {
-        process._events.SIGTERM = onSigterm;
-    } else {
-        process.on('SIGTERM', onSigterm);
-    }
-    
-    robot.on('robot.wakeup', function(context){
-        robot.send(
-            {room: theRoom},
-            'ガバリ (起動しました)'
-        );
-    });
-    robot.on('robot.sleep', function(context){
-        robot.send(
-            {room: theRoom},
-            'スヤリ (停止しました)'
-        );
-    });
     robot.on('robot.fetched.weather', function(weather){
         robot.send(
             {room: theRoom},

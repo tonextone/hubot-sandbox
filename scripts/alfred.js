@@ -1,3 +1,14 @@
+// Description
+//   basic Hubot scripts.
+//
+// Commands:
+//   zzz - おこしてくれます。
+//   (起動時に) - 起動したことを教えてくれます。
+//   (停止時に) - 停止したことを教えてくれます。
+//
+// Author:
+//   Taiji Baba <master@tonextone.com>
+
 require('dotenv').config({silent: true});
 
 var theRoom = process.env.HUBOT_TYPETALK_ROOMS;
@@ -6,11 +17,34 @@ var _ = require('lodash');
 var moment = require('moment'); moment.locale('ja');
 
 module.exports = function(robot){
-    robot.hear(/zzz/i, function(res){
-        res.send("wake up!");
+    var cid = setInterval(function(){
+        if (typeof(robot.send) !== 'function') return;
+        robot.emit('robot.wakeup', {});
+        clearInterval(cid);
+    }, 1000);
+    var onSigterm = function(){
+        robot.emit('robot.sleep', {});
+        setTimeout(process.exit, 1000);
+    };
+    if (typeof(process._events.SIGTERM) !== 'undefined') {
+        process._events.SIGTERM = onSigterm;
+    } else {
+        process.on('SIGTERM', onSigterm);
+    }
+    robot.on('robot.wakeup', function(context){
+        robot.send(
+            {room: theRoom},
+            'ガバリ (起動しました)'
+        );
     });
-    robot.respond(/zzz/i, function(res){
-        res.reply("wake up now!");
+    robot.on('robot.sleep', function(context){
+        robot.send(
+            {room: theRoom},
+            'スヤリ (停止しました)'
+        );
+    });
+    robot.hear(/zzz/i, function(res){
+        res.reply('オキロ');
     });
 };
 

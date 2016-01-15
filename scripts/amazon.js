@@ -1,3 +1,12 @@
+// Description
+//   hubot scripts for Amazon whatever .
+//
+// Commands:
+//   az:<text> - Amazon を <text> で検索します。
+//
+// Author:
+//   Taiji Baba <master@tonextone.com>
+
 require('dotenv').config({silent: true});
 
 var theRoom = process.env.HUBOT_TYPETALK_ROOMS;
@@ -7,7 +16,7 @@ var moment = require('moment'); moment.locale('ja');
 var amazon = require('amazon-product-api');
 
 module.exports = function(robot){
-    robot.respond(/(?:az|amzn|amaz|amazon) (.*)/i, function(res){
+    robot.hear(/^(?:az|amzn|amaz|amazon):(.*)/i, function(res){
         var keyword = res.match[1];
         res.reply('Amazon を "' + keyword + '" で検索します...' );
         var client = amazon.createClient({
