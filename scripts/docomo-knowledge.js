@@ -32,13 +32,12 @@ module.exports = function(robot){
                 var reply;
                 if (err) reply = 'ごめん、知らない。';
                 else {
-                    reply = body;
-                    // var data = JSON.parse(body);
-                    // reply = data.message.textForDisplay;
-                    // _.each(data.answers,function(a){
-                    //     reply += '\n'+a.answerText;
-                    //     if (a.linkUrl && (a.linkUrl != a.answerText)) reply += '\n'+a.linkUrl;
-                    // });
+                    var data = JSON.parse(body);
+                    reply = data.message.textForDisplay;
+                    _.each(data.answers,function(a){
+                        reply += '\n'+a.answerText;
+                        if (a.linkUrl && (a.linkUrl != a.answerText)) reply += '\n'+a.linkUrl;
+                    });
                 }
                 res.reply(reply);
             });
