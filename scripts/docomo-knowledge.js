@@ -6,7 +6,7 @@
 //   HUBOT_DOCOMO_DIALOGUE_API_KEY
 //
 // Commands:
-//   hubot <message> - 適当に応えます。
+//   ? <message> - 調べて応えます。
 //
 // Author:
 //   Taiji Baba <master@tonextone.com>
@@ -16,12 +16,10 @@ require('dotenv').config({silent: true});
 var _ = require('lodash');
 
 module.exports = function(robot){
-    robot.respond(/.*[\?？]$/, function(res){
-        var msg = res.match[0];
-        msg = msg.replace((new RegExp('[@]?'+robot.name+'[:]? *', 'igm')), '');
-        if (robot.alias) msg = msg.replace((new RegExp('^'+robot.alias)), '');
+    robot.hear(/^\? +(.*)$/, function(res){
+        var msg = res.match[1];
         
-        res.reply('「'+msg+'」について、ちょっと調べてみます...' );
+        res.reply('ちょっと調べてみます...' );
         
         robot
             .http('https://api.apigw.smt.docomo.ne.jp/knowledgeQA/v1/ask')
@@ -32,7 +30,7 @@ module.exports = function(robot){
             .header('Content-Type', 'application/json')
             .get()(function(err, r, body){
                 var reply;
-                if (err) reply = 'ごめん、知らない。';
+                if (err) reply = 'ダメでした...';
                 else {
                     var data = JSON.parse(body);
                     reply = data.message.textForDisplay;
