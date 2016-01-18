@@ -110,7 +110,7 @@ module.exports = function(robot){
         }
     });
     new Job({
-        cronTime: '0 30 19 * * 1-5',
+        cronTime: '0 00 19 * * 1-5',
         timeZone: 'Asia/Tokyo',
         start: true,
         onTick: function(){
@@ -124,7 +124,7 @@ module.exports = function(robot){
         }
     });
     new Job({
-        cronTime: '0 0 */2 * * 1-5',
+        cronTime: '0 0 9,12,15,18 * * 1-5',
         timeZone: 'Asia/Tokyo',
         start: true,
         onTick: function(){
