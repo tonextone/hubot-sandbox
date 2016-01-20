@@ -1,5 +1,8 @@
-// Description
+// Description:
 //   日時に関わる Hubot scripts.
+//
+// Configuration:
+//   OPENWEATHERMAP_APPID
 //
 // Commands:
 //   now - いまの日時と気象を教えてくれます。
@@ -13,9 +16,11 @@
 require('dotenv').config({silent: true});
 
 var rooms = process.env.HUBOT_TYPETALK_ROOMS.split(/, */);
+var openWeatherMapAppId = process.env.OPENWEATHERMAP_APPID;
 
 var _ = require('lodash');
 var moment = require('moment'); moment.locale('ja');
+
 var Job = require('cron').CronJob;
 
 module.exports = function(robot){
@@ -79,7 +84,7 @@ module.exports = function(robot){
         robot
             .http('http://api.openweathermap.org/data/2.5/weather')
             .header('Accept', 'application/json')
-            .query({q: 'Tokyo', appid: '20ad84345f5c6d855d36d3af1ab52a7c'})
+            .query({q: 'Tokyo', appid: openWeatherMapAppId})
             .get()(function(err, r, body){
                 var weather = err ? null : weatherObj(JSON.parse(body));
                 robot.emit('robot.fetched.weather', {weather: weather, room: room});
@@ -89,7 +94,7 @@ module.exports = function(robot){
         robot
             .http('http://api.openweathermap.org/data/2.5/forecast')
             .header('Accept', 'application/json')
-            .query({q: 'Tokyo', appid: '20ad84345f5c6d855d36d3af1ab52a7c'})
+            .query({q: 'Tokyo', appid: openWeatherMapAppId})
             .get()(function(err, r, body){
                 var w = JSON.parse(body).list;
                 var weathers = err ? null : [weatherObj(w[0]), weatherObj(w[1]), weatherObj(w[2]), weatherObj(w[3])];

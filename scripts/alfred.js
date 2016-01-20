@@ -1,4 +1,4 @@
-// Description
+// Description:
 //   basic Hubot scripts.
 //
 // Commands:

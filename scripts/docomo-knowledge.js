@@ -1,4 +1,4 @@
-// Description
+// Description:
 //   A Hubot script with docomo knowledge Q&A API
 //   https://dev.smt.docomo.ne.jp/?p=docs.api.page&api_name=knowledge_qa&p_name=api_usage_scenario
 //

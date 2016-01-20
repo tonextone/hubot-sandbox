@@ -1,10 +1,10 @@
-// Description
+// Description:
 //   hubot scripts for Amazon whatever .
 //
 // Configuration:
-//   AMAZON_AWS_ID
-//   AMAZON_AWS_SECRET
-//   AMAZON_AWS_TAG
+//   AWS_ID
+//   AWS_SECRET
+//   AWS_TAG
 //
 // Commands:
 //   az <text> - Amazon を <text> で検索します。
@@ -25,9 +25,9 @@ module.exports = function(robot){
         res.reply('Amazon を "' + keyword + '" で検索します...' );
         
         (amazon.createClient({
-            awsId: process.env.AMAZON_AWS_ID,
-            awsSecret: process.env.AMAZON_AWS_SECRET,
-            awsTag: process.env.AMAZON_AWS_TAG
+            awsId: process.env.AWS_ID,
+            awsSecret: process.env.AWS_SECRET,
+            awsTag: process.env.AWS_TAG
         })).itemSearch({
             keywords: keyword,
             searchIndex: 'All',

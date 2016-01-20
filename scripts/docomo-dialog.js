@@ -1,4 +1,4 @@
-// Description
+// Description:
 //   A Hubot script with docomo dialogue API
 //   https://dev.smt.docomo.ne.jp/?p=docs.api.page&api_name=dialogue&p_name=api_usage_scenario
 //
